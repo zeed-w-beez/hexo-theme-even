@@ -55,3 +55,85 @@
     border-radius: 50%;
     animation: miracle-point 2s cubic-bezier(0.5, 0.76, 0.45, 0.06) infinite alternate;
 }
+
+// background shape
+
+#main:before {
+    content: "";
+    position: fixed;
+    top: -50vw;
+    right: 5vw;
+    border-left: 130vw solid rgba(130, 240, 240, 0.24);
+    border-bottom: 50vw solid transparent;
+    border-top: 80vw solid rgba(0, 0, 0, 0);
+    pointer-events: none;
+    transform: scale(.9999);
+    z-index: 1;
+}
+/*.x-full-height...*/
+#main:after {
+    content: "";
+    position: fixed;
+    top: -80vh;
+    right: 150px;
+    border-left: 80vw solid rgba(255, 235, 200, 0.38);
+    border-bottom: 110vh solid rgba(0, 0, 0, 0);
+    border-top: 100vh solid transparent;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#main {
+    position: relative;
+}
+
+#header,
+#main #content {
+    z-index: 2;
+    position: relative;
+}
+
+// taiji
+
+.taiji {
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background-image: linear-gradient(to right,black 50%,white 50%);
+}
+.taiji::before,.taiji::after {
+    content:'';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    left: -50%;
+}
+.taiji::before {
+    background-color: white;
+    border:20px solid black;
+    top: 0;
+    left: 25%;
+}
+.taiji::after {
+    background-color: black;
+    border:20px solid white;
+    bottom: 0;
+    left: 25%;
+}
+
+.taiji {
+    animation: rotate 1s linear infinite;    
+    animation-play-state:paused;
+}
+.taiji:hover {
+    animation-play-state:running;
+}
+@keyframes rotate {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

@@ -33,7 +33,12 @@ color: Mint Green
 # default page mode: default | archives
 mode: default
 
-toc: false
+# toc options: https://hexo.io/docs/helpers.html#toc
+toc: 
+  class: toc
+  list_number: false
+  min_depth: 1
+  max_depth: 6
 
 # node_sass:
 #   outputStyle: expanded

@@ -1,6 +1,17 @@
-<script type="text/javascript" src="<%- url_for('lib/jquery/jquery.min.js') %>"></script>
-<script type="text/javascript" src="<%- url_for('lib/slideout/slideout.js') %>"></script>
-
 <% if (theme.fancybox) { %>
-<script type="text/javascript" src="<%- url_for('lib/fancybox/jquery.fancybox.pack.js') %>"></script>
+<% var fancybox_js = 'fancybox/jquery.fancybox.pack.js' %>
+<% } %>
+
+<%
+var js_libs = {
+jquery: 'jquery/jquery.min.js',
+slideout: 'slideout/slideout.js',
+fancybox: fancybox_js,
+}
+%>
+
+<% for (var lib in js_libs) { %>
+<% if (lib) { %>
+<script type="text/javascript" src="<%- url_for('lib') %>/<%- js_libs[lib] %>"></script>
+<% } %>
 <% } %>

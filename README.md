@@ -1,11 +1,42 @@
 # hexo-theme-even
 
+> fork from <https://github.com/ahonn/hexo-theme-even/>
+
 A super simple theme for Hexo.
 
-fork from <https://github.com/ahonn/hexo-theme-even/>
+For more options, check out the [document](https://github.com/ahonn/hexo-theme-even/wiki)
 
-- Use ejs instead of swig.
-- Use dartsass instead of sass.
+## 与 upstream 的差异记录
+
+### 个性化视觉定制（`source/css/_custom/_custom.scss`）
+
+- **2019-11-30** — polymer logo（`#polymer`）、miracle-point 呼吸动画（`#miracle-point`）、taiji 悬停旋转（`.taiji`）
+- **2024-01-20** — 背景斜角装饰（`#main:before / #main:after`）
+
+### 滚动进度条
+
+- **2019-11-30** — `_header.scss` 新增 `.scrollPercentage` 顶部固定进度条样式；`even.js` 新增滚动百分比计算逻辑
+
+### 页脚动效（`_footer/_copyright.scss`）
+
+- **2019-11-30** — heart 图标跳动动画；新增 `.netlify-link` 主题色样式
+
+### 样式微调
+
+| 文件 | 改动 | 时间 |
+|------|------|------|
+| `_base.scss` | 注释掉顶部 3px 主题色 border | 2019-11-30 |
+| `_back-to-top.scss` | 位置从固定 px 改为 `5%`，移动端不再强制隐藏 | 2019-11-30 |
+| `_post/_code.scss` | padding 从 `7px` 改为 `2px 7px` | 2019-12-01 |
+| `_post/_content.scss` | 注释掉表格 double border | 2019-12-01 |
+| `_mobile.scss` | 注释掉 mobile 导航 `margin-top: 2px` | 2019-11-30 |
+
+### 工程改动
+
+- **2021-03-09** — 新增 `bootstrap.js` 自定义初始化文件（`Even.visits()` 调用）
+- **2023-09-23** — 删除 `.github/workflows/pages.yml` CI 工作流
+- **2023-10-10** — swig 模板全部转换为 ejs
+- **2026-06-16** — npm 依赖升级（audit fix）
 
 ## Installation
 
@@ -23,45 +54,3 @@ Modify `yoursite/_config.yml`:
 ## Themes: http://hexo.io/themes/
 theme: even
 ```
-
-For more options, check out the [document](https://github.com/ahonn/hexo-theme-even/wiki)
-
-## use ejs instead of swig
-
-最开始打算是换成 `nunjucks` 的，但是没成功。而且 [hexo-renderer-nunjucks](https://github.com/hexojs/hexo-renderer-nunjucks) has been archived by the owner on Jul 29, 2023。
-
-1. 先使用 ChatGPT 把 `swig` 转换为 `ejs` 格式，效果棒棒哒
-
-1. 再批量修改一下文件后缀和引用
-
-   ```shell
-   cd layout
-
-   # rename template file extension:
-   find . -type f -name "*.swig" -exec sh -c 'mv "$0" "${0%.swig}.ejs"' {} \;
-
-   # replate template file reference:
-   find . -type f -exec sed -i 's/\.swig/\.ejs/g' {} \;
-   ```
-
-1. 有些问题需要手动修复一下
-
-   转换完肯定是不能直接运行的，还有一些地方需要手动修改下
-
-   - `{%- block content -%}{%- endblock -%}` 改为 `<%- body %>`
-   - 如果输出的是转义后的 HTML，需要把 ejs 标签 `<%=` 改为 `<%-`，具体看下面的标签说明（但是像 `page.description` 这样的字段，最好还是保留转义）
-   - 转换之后有一些 `partial("xxx.ejs")` 引用是用的变量模式，会报错说找不到，改成直接引用就好了
-   - 开发的时候 `hexo s` 会有缓存，遇到没效果的，可以先执行一下 `hexo clean`
-
-1. EJS 标签含义
-
-   - `<%` '脚本' 标签，用于流程控制，无输出。
-   - `<%_` 删除其前面的空格符
-   - `<%=` 输出数据到模板（输出是转义 HTML 标签）
-   - `<%-` 输出非转义的数据到模板
-   - `<%#` 注释标签，不执行、不输出内容
-   - `<%%` 输出字符串 '<%'
-   - `%>` 一般结束标签
-   - `-%>` 删除紧随其后的换行符
-   - `_%>` 将结束标签后面的空格符删除
-   - 其他语法可以参考[官方文档](https://ejs.bootcss.com/#docs)
